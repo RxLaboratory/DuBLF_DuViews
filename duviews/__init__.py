@@ -20,7 +20,8 @@ bl_info = {
     "location" : "Pie Menu",
     "description" : "Tools to manage views",
     "warning" : "",
-    "category" : "Pie Menu"
+    "category" : "Pie Menu",
+    "wiki_url": "http://duviews-docs.rainboxlab.org/"
 }
 
 import bpy # pylint: disable=import-error
