@@ -16,7 +16,7 @@ bl_info = {
     "author" : "Nicolas 'Duduf' Dufresne",
     "description" : "",
     "blender" : (2, 80, 0),
-    "version" : (0, 0, 1),
+    "version" : (0, 0, 2),
     "location" : "Pie Menu",
     "description" : "Tools to manage views",
     "warning" : "",
@@ -107,17 +107,17 @@ class DUVIEW_MT_menu_show_window( bpy.types.Menu ):
         layout = self.layout
         populateShowWindowMenu(layout)
 
-def populateShowWindowMenu(layout):
-    layout.operator("duview.show_window", text = "3D View", icon='VIEW3D').view = 'VIEW_3D'
-    layout.operator("duview.show_window", text = "Image Editor", icon = 'IMAGE').view = 'IMAGE_EDITOR'
-    layout.operator("duview.show_window", text = "Shader Editor", icon = 'SHADING_RENDERED').view = 'NODE_EDITOR'
-    layout.operator("duview.show_window", text = "Graph Editor", icon = 'GRAPH').view = 'GRAPH_EDITOR'
-    layout.operator("duview.show_window", text = "Text Editor", icon = 'TEXT').view = 'TEXT_EDITOR'
-    layout.operator("duview.show_window", text = "Preferences", icon = 'PREFERENCES').view = 'PREFERENCES'
+def populateShowWindowMenu(layout, suffix = ""):
+    layout.operator("duview.show_window", text = "3D View" + suffix, icon='VIEW3D').view = 'VIEW_3D'
+    layout.operator("duview.show_window", text = "Image Editor" + suffix, icon = 'IMAGE').view = 'IMAGE_EDITOR'
+    layout.operator("duview.show_window", text = "Shader Editor" + suffix, icon = 'SHADING_RENDERED').view = 'NODE_EDITOR'
+    layout.operator("duview.show_window", text = "Graph Editor" + suffix, icon = 'GRAPH').view = 'GRAPH_EDITOR'
+    layout.operator("duview.show_window", text = "Text Editor" + suffix, icon = 'TEXT').view = 'TEXT_EDITOR'
+    layout.operator("duview.show_window", text = "Preferences" + suffix, icon = 'PREFERENCES').view = 'PREFERENCES'
 
 def menu_func(self, context):
     self.layout.separator()
-    populateShowWindowMenu(self.layout)
+    populateShowWindowMenu(self.layout, " (New Window)")
     
 
 classes = (
@@ -140,7 +140,7 @@ def register():
     # keymaps
     kc = bpy.context.window_manager.keyconfigs.addon
     if kc:
-        km = kc.keymaps.new(name='3D View', space_type='VIEW_3D')
+        km = kc.keymaps.new(name = "Window",space_type='EMPTY', region_type='WINDOW')
         kmi = km.keymap_items.new('wm.call_menu_pie', 'W', 'PRESS', ctrl=True)
         kmi.properties.name = 'DUVIEW_MT_pie_menu_show_window'
         addon_keymaps.append((km, kmi))
