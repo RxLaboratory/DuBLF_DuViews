@@ -9,9 +9,12 @@ This documentation is licensed under the [Gnu Free Documentation License](https:
 
 ## Install
 
-The addon can be downloaded from [Rainbox Lab.](https://rainboxlab.org).
+The add-on can be downloaded from [Rainbox Lab.](https://rainboxlab.org).
 
 Then, you can install it from the preferences of *Blender*, *Add-ons* tab. Once installed, it will be listed in the *Pie Menu* section where you can activate it.
+
+!!! note
+    This add-on works only with Blender 2.8 and more recent versions.
 
 ## Settings
 
