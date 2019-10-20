@@ -32,5 +32,9 @@ Some items are added in the main *Window* menu of the top bar.
 
 You can also quickly open windows from a pie menu with the `[Ctrl] + [W]` shortcut.
 
+!!! Note
+    if the *Animation Nodes* addon is installed and enabled, *DuViews* also adds an item to open *Animation Nodes*.  
+    You may need to reload *DuViews* if you have enabled *Animation Nodes* after *DuViews*.
+
 
 <sub>*Last Modified on <script type="text/javascript"> document.write(document.lastModified) </script>*</sub>

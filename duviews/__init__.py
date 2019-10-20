@@ -16,7 +16,7 @@ bl_info = {
     "author" : "Nicolas 'Duduf' Dufresne",
     "description" : "",
     "blender" : (2, 80, 0),
-    "version" : (0, 0, 2),
+    "version" : (0, 0, 3),
     "location" : "Pie Menu",
     "description" : "Tools to manage views",
     "warning" : "",
@@ -56,6 +56,7 @@ class DUVIEW_OT_show_window ( bpy.types.Operator ):
     bl_options = {'REGISTER','UNDO'}
 
     view: bpy.props.StringProperty( default = 'VIEW_3D' )
+    ui_type: bpy.props.StringProperty( default = 'VIEW' )
        
     def execute( self, context ):
         preferences = context.preferences
@@ -81,6 +82,7 @@ class DUVIEW_OT_show_window ( bpy.types.Operator ):
         # Change area type
         area = bpy.context.window_manager.windows[-1].screen.areas[0]
         area.type = self.view
+        area.ui_type = self.ui_type
 
         # Restore scene settings
         render.resolution_x = resolution_x
@@ -109,12 +111,35 @@ class DUVIEW_MT_menu_show_window( bpy.types.Menu ):
         populateShowWindowMenu(layout)
 
 def populateShowWindowMenu(layout, suffix = ""):
-    layout.operator("duview.show_window", text = "3D View" + suffix, icon='VIEW3D').view = 'VIEW_3D'
-    layout.operator("duview.show_window", text = "Image Editor" + suffix, icon = 'IMAGE').view = 'IMAGE_EDITOR'
-    layout.operator("duview.show_window", text = "Shader Editor" + suffix, icon = 'SHADING_RENDERED').view = 'NODE_EDITOR'
-    layout.operator("duview.show_window", text = "Graph Editor" + suffix, icon = 'GRAPH').view = 'GRAPH_EDITOR'
-    layout.operator("duview.show_window", text = "Text Editor" + suffix, icon = 'TEXT').view = 'TEXT_EDITOR'
-    layout.operator("duview.show_window", text = "Preferences" + suffix, icon = 'PREFERENCES').view = 'PREFERENCES'
+    op = layout.operator("duview.show_window", text = "3D View" + suffix, icon='VIEW3D')
+    op.view = 'VIEW_3D'
+    op.ui_type = 'VIEW_3D'
+
+    op = layout.operator("duview.show_window", text = "Image Editor" + suffix, icon = 'IMAGE')
+    op.view = 'IMAGE_EDITOR'
+    op.ui_type = 'VIEW'
+
+    op = layout.operator("duview.show_window", text = "Shader Editor" + suffix, icon = 'SHADING_RENDERED')
+    op.view = 'NODE_EDITOR'
+    op.ui_type = 'ShaderNodeTree'
+
+    op = layout.operator("duview.show_window", text = "Graph Editor" + suffix, icon = 'GRAPH')
+    op.view = 'GRAPH_EDITOR'
+    op.ui_type = 'FCURVES'
+
+    op = layout.operator("duview.show_window", text = "Text Editor" + suffix, icon = 'TEXT')
+    op.view = 'TEXT_EDITOR'
+    op.ui_type = 'TEXT_EDITOR'
+
+    op = layout.operator("duview.show_window", text = "Preferences" + suffix, icon = 'PREFERENCES')
+    op.view = 'PREFERENCES'
+    op.ui_type = 'PREFERENCES'
+
+    # If animation nodes is installed, add it too
+    if dublf.DuBLF_addons.is_addon_enabled('animation_nodes'):
+        op = layout.operator("duview.show_window", text = "Animation Nodes" + suffix, icon = 'ONIONSKIN_ON')
+        op.view = 'NODE_EDITOR'
+        op.ui_type = 'an_AnimationNodeTree'
 
 def menu_func(self, context):
     self.layout.separator()
