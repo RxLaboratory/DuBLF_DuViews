@@ -118,6 +118,16 @@ class DUBLF_handlers():
         """Removes a function from frame_change_pre handler"""
         DUBLF_handlers.remove_function( bpy.app.handlers.frame_change_post, fn )
 
+    @staticmethod
+    def depsgraph_update_post_append( fn ):
+        """Appends a function to frame_change_pre handler, taking care of duplicates"""
+        DUBLF_handlers.append_function_unique( bpy.app.handlers.depsgraph_update_post, fn )
+
+    @staticmethod
+    def depsgraph_update_post_remove( fn ):
+        """Removes a function from frame_change_pre handler"""
+        DUBLF_handlers.remove_function( bpy.app.handlers.depsgraph_update_post, fn )
+
 # ========= RNA ========================
 
 class DuBLF_rna():
@@ -153,7 +163,19 @@ class DuBLF_rna():
             return None           
         except:
             return None
-            
+
+# ========= ADDONS =====================
+
+class DuBLF_addons():
+    """Methods to work with addons"""
+
+    @staticmethod
+    def is_addon_enabled( moduleName ):
+        addons = bpy.context.preferences.addons
+        for addon in addons:
+            if addon.module == moduleName:
+                return True
+        return False
 
 def register():
     rigging.register()
